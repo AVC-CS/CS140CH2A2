@@ -5,13 +5,17 @@ using namespace std;
 
 int main()
 {
-    ofstream ofs;
-    int num = 11;
-    int lastdigit = num & 0x00000001;
-    bitset<1> onebit(lastdigit);
-    cout << onebit << endl;
+	int num = 11;
+	char *cp;
 
-    ofs.open("data2.bin", ios::out | ios::binary);
-    ofs.write((char *)&onebit, sizeof(onebit));
-    ofs.close();
+	ofstream ofs;
+	ofs.open("data2.bin", ios::out | ios::binary);
+	cp = (char*)&num;
+	ofs.write((char*)&num, sizeof(num));
+	ofs.write(cp, sizeof(char));
+
+	int firstbit = num & 0x00000001;
+	bitset<1> bit(firstbit);
+	ofs.write(reinterpret_cast<char*>(&bit), sizeof(bit));
+	ofs.close();
 }
